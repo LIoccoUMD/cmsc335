@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Time for some laughs!</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <h1>Multiple Jokes</h1>
+  <div id="joke-display">
+    <p><%= jokes[currJokeIndex].setup %></p>
+    <p><%= jokes[currJokeIndex].punchline %></p>
+  </div>
+  <button onclick="nextJoke()">Next Joke</button><br><br>
+  <a href="/">Return to Index</a>
+  <script>
+    let currJokeIndex = 0;
+    let jokes = [];
+    
+    // button functionality for next joke
+    function nextJoke() {
+        event.preventDefault(); // prevents text cursor from appearing in button
+        if (currJokeIndex >= jokes.length - 1) {
+            fetchNewJokes();
+            currJokeIndex = 0;
+        } else {
+            currJokeIndex++;
+        }
+        updateJoke();
+    }
+
+    // if all ten jokes are viewed, generate 10 more
+    async function fetchNewJokes() {
+        try {
+            const response = await fetch("https://official-joke-api.appspot.com/random_ten")
+            const newJokes = await response.json();
+            jokes = newJokes;
+            updateJoke();
+        } catch (error) {
+            console.error("No more jokes :(", error);
+        }
+    }
+
+
+    // make new jokes appear when button is clicked
+    function updateJoke() {
+        const jokeDisplay = document.getElementById("joke-display");
+        if (jokes.length >= 0) {
+            jokeDisplay.innerHTML = `<p>${jokes[currJokeIndex].setup}</p>
+          <p>${jokes[currJokeIndex].punchline}</p>
+        `;
+        } else {
+            jokeDisplay.innerHTML = "<p>No more jokes :(</p>"
+        }
+    }
+
+  </script>
+</body>
+
+</html>
