@@ -1,7 +1,6 @@
   const axios = require('axios'); // allow creation of http servers and requests / repsonses WAY EASIER than 'http'
   const express = require("express"); // import Express framework
   const app = express(); // access to routes, handling HTTP requests
-  const fs = require("fs"); // allow read, write access to files
   const path = require("path");
   const { MongoClient, ServerApiVersion } = require('mongodb');
   const { url } = require('inspector');
